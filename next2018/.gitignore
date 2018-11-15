@@ -12,3 +12,6 @@ buildNumber.properties
 
 # Maven local repo
 repo/
+
+# Bazel
+/bazel-*
