@@ -1,0 +1,8 @@
+# ignore the credentials in this file...
+*
+
+# ...unless they're encrypted (extension ".enc")
+!*.enc
+
+# ...and keep this file
+!.gitignore
