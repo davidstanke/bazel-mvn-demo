@@ -38,10 +38,8 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
 #### To run the Bazel-build app:
 `bazel run tfjavademo`
 
-#### To build TF with Bazel (local execution):
-`bazel test //tensorflow/core/util/...`
 #### To build TF with Bazel (remote execution):
-`bazel test ... --config=rbe && bazel run tfjavademo --config=rbe`
+`bazel test :all --config=rbe && bazel run tfjavademo --config=rbe`
 
 ### Demo script
 1. Java change: Edit a file in src/main/java/org/apache/commons/lang3/
