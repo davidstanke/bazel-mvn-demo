@@ -34,10 +34,10 @@ public class TFJavaDemo {
 
 		System.out.println("Great, let's see what it looks like:");
 		
-		String filepath = "next2018/img/" + numImg + ".jpg";
+		String filepath = "img/" + numImg + ".jpg";
 		
 		// pass command-line args to LabelImage class
-		String[] labelArgs = {"next2018/model",filepath};
+		String[] labelArgs = {"model",filepath};
 		
 		System.out.print(getAscii(filepath));
 		System.out.println();
