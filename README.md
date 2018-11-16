@@ -26,6 +26,7 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
   * Copy service account credentials: `gsutil cp gs://next2018-demo-bazel/creds/demo-cred.json ./creds/`
 
 ### Building
+`cd demo-app`
 #### To build with Maven:
 `mvn package`
 #### To run Maven-built app:

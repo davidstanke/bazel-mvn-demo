@@ -23,17 +23,16 @@
   <name>TensorFlow / Java Demo</name>
  
   <dependencies>
-<!--   <dependency>
-    <groupId>org.tensorflow</groupId>
-    <artifactId>libtensorflow</artifactId>
-    <version>1.8</version>
-  </dependency>
--->
   <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.tensorflow</groupId>
+      <artifactId>libtensorflow</artifactId>
+      <version>1.9.0</version>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
@@ -103,13 +102,17 @@
 <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <executions>
+        <version>3.0.0-M1</version>
+	<executions>
           <execution>
             <id>plain</id>
             <configuration>
+		<forkCount>0</forkCount>
+		<argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
               <includes>
                 <include>**/*Test.java</include>
               </includes>
+		<useSystemClassLoader>false</useSystemClassLoader>
               <runOrder>random</runOrder>
             </configuration>
           </execution>
