@@ -7,7 +7,7 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
 
 ### Setup
 * Required software
-  * Bazel 0.18+
+  * Bazel 0.18 [doesn't work with 19]
     * Maven 3+
 * Setup local machine (at root of repo)
   * Run `./configure` to prepare TensorFlow Bazel workspace
@@ -15,7 +15,7 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
   * Build the TF native library and Java wrapper: 
     * `bazel build //tensorflow/java:tensorflow`
     * `bazel build //tensorflow/java:libtensorflow_jni`
-    * `bazel build //tensorflow/java:pom`
+    * `bazel build //tensorflow/java:pom` [??? needed]
   * Configure the local JDK to load the native library:
    ```
     echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:${PWD}/bazel-bin/tensorflow/java" >> ~/.bashrc
@@ -24,25 +24,34 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
 * Setup GCP (at root of repo)
   * Authenticate: `gcloud init` --> choose project "btd-pm" and default zone "us-central1-c"
   * Copy service account credentials: `gsutil cp gs://next2018-demo-bazel/creds/demo-cred.json ./creds/`
+* Build with Maven and verify that it runs
+  * `cd demo-app && mvn package`
+  * `java -jar target/tfjavademo-0.1-jar-with-dependencies.jar` [TODO: change to `mvn exec` or other]
+* Build with Bazel and verify that it runs
+  * `bazel test :all`
+  * `bazel run tfjavademo`
+  * `bazel test :all --config=rbe && bazel run tfjavademo --config=rbe`
 
-### Building
-`cd demo-app`
-#### To build with Maven:
-`mvn package`
-#### To run Maven-built app:
-`java -jar target/tfjavademo-0.1-jar-with-dependencies.jar` [TODO: change to `mvn exec` or other]
+### Demo script part A
+1. Show app:
+  * `cd demo-app`
+  * `java -jar target/tfjavademo-0.1-jar-with-dependencies.jar`
+1. Java change:
+  * `vim demo-app/src/main/java/com/davidstanke/Greeter.java`
+1. Test:
+  * `mvn package` / `bazel test :all` 
+  * [fail]
+1. Fix:
+  * `vim demo-app/src/test/java/com/davidstanke/GreeterTest.java`
+  * `mvn package` / `bazel test :all`
 
-#### To build with Bazel (local):
-`bazel test :all`
-
-#### To run the Bazel-build app:
-`bazel run tfjavademo`
-
-#### To build TF with Bazel (remote execution):
-`bazel test :all --config=rbe && bazel run tfjavademo --config=rbe`
-
-### Demo script
-1. Java change: Edit a file in src/main/java/org/apache/commons/lang3/
-1. Re-run Maven and Bazel (local): both should re-execute JUnit tests
-1. C++ chnange: Edit ../tensorflow/core/kernels/???
-1. Re-run Bazel (local) and Bazel (remote): both should re-execute C++ tests
+### Demo script part B
+1. C++ change:
+  * `cd ../tensorflow/core/`
+  * `vim lib/strings/numbers.h`
+1. Test:  
+  * `bazel test :all` / `bazel test :all --config=rbe`
+  * [fail]
+1. Fix:
+  * `vim lib/stirngs/numbers_test.cc`
+  * `bazel test :all --config=rbe`
