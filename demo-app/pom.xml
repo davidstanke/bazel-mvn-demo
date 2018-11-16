@@ -1,20 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
- 
   <groupId>com.davidstanke.tfjavademo</groupId>
   <artifactId>tfjavademo</artifactId>
   <version>0.1</version>
   <packaging>jar</packaging>
-
-<!--  <repositories>
-    <repository>
-      <id>tfjavademo</id>
-      <name>local repository</name>
-      <url>file://${basedir}/repo</url>
-    </repository>
-  </repositories>
--->
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
@@ -31,7 +21,7 @@
     </dependency>
     <dependency>
       <groupId>org.tensorflow</groupId>
-      <artifactId>libtensorflow</artifactId>
+      <artifactId>tensorflow</artifactId>
       <version>1.9.0</version>
     </dependency>
     <dependency>
@@ -205,6 +195,32 @@
       </compilerArgs> -->
     </configuration>
   </plugin>
+  <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>java</executable>
+          <mainClass>com.davidstanke.tfjavademo.TFJavaDemo</mainClass>
+          <arguments>-classpath</arguments>
+          <!-- optional -->
+         <!--
+          <workingDirectory>/tmp</workingDirectory>
+          <arguments>
+            <argument>-X</argument>
+            <argument>myproject:dist</argument>
+            ...
+          </arguments>
+          -->
+        </configuration>
+      </plugin>
 		</plugins>
 </build>
 
