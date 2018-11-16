@@ -29,7 +29,7 @@ java_library(
 java_test(
 	name="GreeterTest",
 	srcs=["src/test/java/com/davidstanke/tfjavademo/GreeterTest.java"],
-	deps=[":Greeter","//tensorflow/core"],
+	deps=[":Greeter"],
 	runtime_deps=["//tensorflow/java:tensorflow"]
 )
 
