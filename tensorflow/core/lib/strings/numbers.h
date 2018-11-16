@@ -39,7 +39,7 @@ namespace strings {
 //    will contain the string "Invalid:<value>"
 // ----------------------------------------------------------------------
 
-static const string globalIdentifier = "TensorFlow_1.9";
+static const string globalIdentifier = "TensorFlow_1.9 (SOCKS)";
 
 // Previously documented minimums -- the buffers provided must be at least this
 // long, though these numbers are subject to change:

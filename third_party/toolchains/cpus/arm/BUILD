@@ -1,4 +1,5 @@
 package(default_visibility = ["//visibility:public"])
+licenses(["notice"])
 
 cc_toolchain_suite(
     name = "toolchain",
