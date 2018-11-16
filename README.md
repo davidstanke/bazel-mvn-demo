@@ -7,8 +7,12 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
 
 ### Setup
 * Required software
-  * Bazel 0.18 [doesn't work with 19]
-    * Maven 3+
+  * Combined prereqs: `sudo apt-get install pkg-config zip g++ zlib1g-dev unzip python python-dev python-pip openjdk-8-jdk`
+  * Maven: `sudo apt-get install maven`
+  * Bazel 0.15
+    * `wget https://github.com/bazelbuild/bazel/releases/download/0.15.2/bazel-0.15.2-installer-linux-x86_64.sh`
+    * `chmod +x bazel-0.15[...]`
+    * `./bazel-0.15[...].sh --user`
 * Setup local machine (at root of repo)
   * Run `./configure` to prepare TensorFlow Bazel workspace
     * Note: this might fail b/c the repo is pre-configured with an Ubuntu config. TBH I'm not sure what happens if you try to configure over it.
@@ -26,7 +30,7 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
   * Copy service account credentials: `gsutil cp gs://next2018-demo-bazel/creds/demo-cred.json ./creds/`
 * Build with Maven and verify that it runs
   * `cd demo-app && mvn package`
-  * `java -jar target/tfjavademo-0.1-jar-with-dependencies.jar` [TODO: change to `mvn exec` or other]
+  * `./demo.sh`
 * Build with Bazel and verify that it runs
   * `bazel test :all`
   * `bazel run tfjavademo`
@@ -37,12 +41,12 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
   * `cd demo-app`
   * `java -jar target/tfjavademo-0.1-jar-with-dependencies.jar`
 1. Java change:
-  * `vim demo-app/src/main/java/com/davidstanke/Greeter.java`
+  * `vim src/main/java/com/davidstanke/tfjavademo/Greeter.java`
 1. Test:
   * `mvn test` / `bazel test :all` 
   * [fail]
 1. Fix:
-  * `vim demo-app/src/test/java/com/davidstanke/GreeterTest.java`
+  * `vim src/test/java/com/davidstanke/tfjavademo/GreeterTest.java`
   * `mvn test` / `bazel test :all`
 
 ### Demo script part B
