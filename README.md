@@ -39,11 +39,11 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
 1. Java change:
   * `vim demo-app/src/main/java/com/davidstanke/Greeter.java`
 1. Test:
-  * `mvn package` / `bazel test :all` 
+  * `mvn test` / `bazel test :all` 
   * [fail]
 1. Fix:
   * `vim demo-app/src/test/java/com/davidstanke/GreeterTest.java`
-  * `mvn package` / `bazel test :all`
+  * `mvn test` / `bazel test :all`
 
 ### Demo script part B
 1. C++ change:
