@@ -67,3 +67,7 @@ build:rbe --auth_enabled=true
 
 # BES
 build:rbe --bes_timeout=10s --bes_backend=buildeventservice.googleapis.com --project_id=bazel-mvn --bes_results_url=https://source.cloud.google.com/results/invocations/
+
+# Specifics of this GCP project_id
+build:rbe --remote_instance_name=projects/bazel-mvn/instances/default_instance 
+build:rbe --project_id=bazel-mvn
