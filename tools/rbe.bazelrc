@@ -1,12 +1,69 @@
+# Remote Build Execution requires a strong hash function, such as SHA256.
 startup --host_jvm_args=-Dbazel.DigestFunction=SHA256
-build:rbe --verbose_failures --jobs 600 --spawn_strategy=remote --strategy=Javac=remote --strategy=Closure=remote --genrule_strategy=remote
-build:rbe --experimental_strict_action_env=true --host_javabase=@bazel_toolchains_test_suite_repo//configs/ubuntu16_04_clang/1.0:jdk8
-build:rbe --javabase=@bazel_toolchains_test_suite_repo//configs/ubuntu16_04_clang/1.0:jdk8 --tls_enabled --auth_enabled
-build:rbe --auth_scope=https://www.googleapis.com/auth/cloud-source-tools --auth_credentials=creds/demo-cred.json
-build:rbe --remote_executor=remotebuildexecution.googleapis.com --remote_cache=remotebuildexecution.googleapis.com --remote_local_fallback=False
-build:rbe --remote_accept_cached=True
-build:rbe --experimental_remote_platform_override='properties:{name:"container-image" value:"docker://gcr.io/asci-toolchain/nosla-ubuntu16_04-tf@sha256:800a7b68cabef15419695c188ed33ed70adf678c2371b97b236f3ae26c38274d" }'
-build:rbe --remote_timeout=3600 --remote_instance_name=projects/better-demos
-build:rbe --crosstool_top=@bazel_toolchains_test_suite_repo//configs/ubuntu16_04_clang/1.0/bazel_0.13.0/default:toolchain
-build:rbe --bes_timeout=60s --bes_backend=buildeventservice.googleapis.com --project_id=better-demos --bes_results_url=https://source.cloud.google.com/results/invocations/
-build:rbe --define EXECUTOR=remote --action_env=TF_PYTHON_CONFIG_REPO=@org_tensorflow//third_party/toolchains/cpus/py
+
+# Depending on how many machines are in the remote execution instance, setting
+# this higher can make builds faster by allowing more jobs to run in parallel.
+# Setting it too high can result in jobs that timeout, however, while waiting
+# for a remote machine to execute them.
+build:rbe --jobs=50
+
+# Set several flags related to specifying the platform, toolchain and java
+# properties.
+# These flags are duplicated rather than imported from (for example)
+# %workspace%/configs/ubuntu16_04_clang/1.0/toolchain.bazelrc to make this
+# bazelrc a standalone file that can be copied more easily.
+# These flags should only be used as is for the rbe-ubuntu16-04 container
+# and need to be adapted to work with other toolchain containers.
+build:rbe --host_javabase=@bazel_toolchains//configs/ubuntu16_04_clang/1.0:jdk8
+build:rbe --javabase=@bazel_toolchains//configs/ubuntu16_04_clang/1.0:jdk8
+build:rbe --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
+build:rbe --java_toolchain=@bazel_tools//tools/jdk:toolchain_hostjdk8
+build:rbe --crosstool_top=@bazel_toolchains//configs/ubuntu16_04_clang/1.0/bazel_0.15.0/default:toolchain
+build:rbe --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
+# Platform flags:
+# The toolchain container used for execution is defined in the target indicated
+# by "extra_execution_platforms", "host_platform" and "platforms".
+# If you are using your own toolchain container, you need to create a platform
+# target with "constraint_values" that allow for the toolchain specified with
+# "extra_toolchains" to be selected (given constraints defined in
+# "exec_compatible_with").
+# More about platforms: https://docs.bazel.build/versions/master/platforms.html
+build:rbe --extra_toolchains=@bazel_toolchains//configs/ubuntu16_04_clang/1.0/bazel_0.15.0/cpp:cc-toolchain-clang-x86_64-default
+build:rbe --extra_execution_platforms=@bazel_toolchains//configs/ubuntu16_04_clang/1.0:rbe_ubuntu1604
+build:rbe --host_platform=@bazel_toolchains//configs/ubuntu16_04_clang/1.0:rbe_ubuntu1604
+build:rbe --platforms=@bazel_toolchains//configs/ubuntu16_04_clang/1.0:rbe_ubuntu1604
+
+# Set various strategies so that all actions execute remotely. Mixing remote
+# and local execution will lead to errors unless the toolchain and remote
+# machine exactly match the host machine.
+build:rbe --spawn_strategy=remote
+build:rbe --strategy=Javac=remote
+build:rbe --strategy=Closure=remote
+build:rbe --genrule_strategy=remote
+build:rbe --define=EXECUTOR=remote
+
+# Enable the remote cache so action results can be shared across machines,
+# developers, and workspaces.
+build:rbe --remote_cache=remotebuildexecution.googleapis.com
+
+# Enable remote execution so actions are performed on the remote systems.
+build:rbe --remote_executor=remotebuildexecution.googleapis.com
+
+# Enable encryption.
+build:rbe --tls_enabled=true
+
+# Enforce stricter environment rules, which eliminates some non-hermetic
+# behavior and therefore improves both the remote cache hit rate and the
+# correctness and repeatability of the build.
+build:rbe --experimental_strict_action_env=true
+
+# Set a higher timeout value, just in case.
+build:rbe --remote_timeout=3600
+
+# Enable authentication. This will pick up application default credentials by
+# default. You can use --auth_credentials=some_file.json to use a service
+# account credential instead.
+build:rbe --auth_enabled=true
+
+# BES
+build:rbe --bes_timeout=10s --bes_backend=buildeventservice.googleapis.com --project_id=bazel-mvn --bes_results_url=https://source.cloud.google.com/results/invocations/
