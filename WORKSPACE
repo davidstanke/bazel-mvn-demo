@@ -10,6 +10,16 @@ http_archive(
     ],
 )
 
+http_archive(
+  name = "bazel_toolchains",
+  urls = [
+    "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/archive/6e25ae44ec4a3b14fea9506633f3f820f3b76224.tar.gz",
+    "https://github.com/bazelbuild/bazel-toolchains/archive/6e25ae44ec4a3b14fea9506633f3f820f3b76224.tar.gz",
+  ],
+  strip_prefix = "bazel-toolchains-6e25ae44ec4a3b14fea9506633f3f820f3b76224",
+  sha256 = "b5855c9a7635a877ba0c5c939395258f6a6b202901dd9f545018d57aba31b72c",
+)
+
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 
 closure_repositories()
@@ -94,11 +104,4 @@ new_http_archive(
         "http://storage.googleapis.com/download.tensorflow.org/models/speech_commands_v0.01.zip",
         "http://download.tensorflow.org/models/speech_commands_v0.01.zip",
     ],
-)
-
-http_archive(
-    name = 'bazel_toolchains_test_suite_repo',
-    url = 'https://github.com/bazelbuild/bazel-toolchains/archive/4653c01284d8a4a536f8f9bb47b7d10f94c549e7.tar.gz',
-    strip_prefix = 'bazel-toolchains-4653c01284d8a4a536f8f9bb47b7d10f94c549e7',
-    sha256 = '1c4a532b396c698e6467a1548554571cb85fa091e472b05e398ebc836c315d77',
 )

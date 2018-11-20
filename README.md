@@ -27,16 +27,15 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
     source ~/.bashrc
     ``` 
 * Setup GCP (at root of repo)
-  * Authenticate: `gcloud init` --> choose project "btd-pm" and default zone "us-central1-c"
-  * Copy service account credentials: `gsutil cp gs://next2018-demo-bazel/creds/demo-cred.json ./creds/`
+  * Authenticate: `gcloud init`
+  * Create a service account and store it as creds/rbe-cred.json
 * Build with Maven and verify that it runs
   * `cd demo-app && mvn package`
   * `./demo.sh`
 * Build with Bazel and verify that it runs
   * `bazel test :all`
-  * `bazel run tfjavademo`
-  * `bazel test :all --config=rbe && bazel run tfjavademo --config=rbe`
-
+  * `bazel run tfjavademo` [NOTE: this won't actually work b/c Bazel looks in a different place for the image files. TODO: fix]
+  * `bazel test :all --config=rbe`
 ### Demo script part A
 1. Show app:
   * `cd demo-app`
@@ -57,6 +56,7 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
 1. Test:  
   * `bazel test :all` / `bazel test :all --config=rbe`
   * [fail]
+  * [show BBRUI]
 1. Fix:
   * `vim lib/stirngs/numbers_test.cc`
   * `bazel test :all --config=rbe`
