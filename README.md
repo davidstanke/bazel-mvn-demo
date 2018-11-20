@@ -10,7 +10,7 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
   * Combined prereqs: `sudo apt-get install pkg-config zip g++ zlib1g-dev unzip python python-dev python-pip openjdk-8-jdk`
   * PIP bits: `pip install -U --user pip six numpy wheel mock`
   * Maven: `sudo apt-get install maven`
-  * Bazel 0.15 [UPDATE 2018-11-19... seems to be working on newer versions of Bazel]
+  * Bazel 0.15
     * `wget https://github.com/bazelbuild/bazel/releases/download/0.15.2/bazel-0.15.2-installer-linux-x86_64.sh`
     * `chmod +x bazel-0.15[...]`
     * `./bazel-0.15[...].sh --user`
