@@ -26,7 +26,7 @@ namespace strings {
 // strcat_test.cc in this directory.
 
 TEST(GlobalIdentifier, Basic) {
-	EXPECT_EQ(globalIdentifier,"TensorFlow_1.9");
+	EXPECT_EQ(globalIdentifier,"TensorFlow_1.9 (base)");
 }
 
 // Test StrCat of ints and longs of various sizes and signdedness.
