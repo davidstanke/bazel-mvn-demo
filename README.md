@@ -36,10 +36,11 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
   * `bazel test :all`
   * `bazel run tfjavademo` [NOTE: this won't actually work b/c Bazel looks in a different place for the image files. TODO: fix]
   * `bazel test :all --config=rbe`
+
 ### Demo script part A
 1. Show app:
   * `cd demo-app`
-  * `java -jar target/tfjavademo-0.1-jar-with-dependencies.jar`
+  * `./demo.sh`
 1. Java change:
   * `vim src/main/java/com/davidstanke/tfjavademo/Greeter.java`
 1. Test:
