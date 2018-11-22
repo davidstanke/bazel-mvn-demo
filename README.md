@@ -26,6 +26,8 @@ This application has been successfully built on Ubuntu 16.04. It _should_ work o
     echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:${PWD}/bazel-bin/tensorflow/java" >> ~/.bashrc
     source ~/.bashrc
     ``` 
+  * set command prompt to make more room:
+  `PS1="\[\033[42m\]\[\033[30m\]${HOSTNAME/bazel-mvn-/}:\[\033[40m\]\[\033[34m\]…/\W\[\033[00m\]\$ "`
 * Setup GCP (at root of repo)
   * Authenticate: `gcloud init`
   * Create a service account and store it as creds/rbe-cred.json
